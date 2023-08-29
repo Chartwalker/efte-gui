@@ -167,7 +167,7 @@ void ExISearch::UpdateStatus() {
 
 void ExISearch::RepaintStatus() {
     TDrawBuffer B;
-    char s[MAXISEARCH + 1];
+    char s[MAXISEARCH + MAXPATH]; /* format string and content from *p at the next sprintf */
     const char *p;
     int W, H;
 

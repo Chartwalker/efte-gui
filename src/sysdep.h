@@ -118,7 +118,7 @@ extern "C" int memicmp(const void *s1, const void *s2, size_t n);
 #endif
 
 #ifndef MAXPATH
-#    define MAXPATH 1024
+#    define MAXPATH 2048
 #endif
 
 #ifndef O_BINARY

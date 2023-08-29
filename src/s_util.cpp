@@ -48,15 +48,15 @@ char *MakeBackup(const char *FileName, char *NewName) {
 
     /* try 1 */
     if (strlen(BackupDirectory) > 0) {
-		char TmpFileName[MAXPATH];
-		char TmpBackupName[MAXPATH];
+		char TmpFileName[MAXPATH+1];
+                char TmpBackupName[MAXPATH+MAXPATH+8];  /*contains TmpFileName + 10 bytes bumper for the slashes */
 
 		strcpy(TmpFileName, FileName);
 
         for (size_t idx=0; idx < strlen(TmpFileName); idx++)
             if (TmpFileName[idx] == '/' || TmpFileName[idx] == '\\' || TmpFileName[idx] == ':')
                 TmpFileName[idx] = '_';
-        snprintf(TmpBackupName, MAXPATH, "%s/%s", BackupDirectory, TmpFileName);
+        snprintf(TmpBackupName, (sizeof(BackupDirectory)+sizeof(TmpFileName)+1), "%s/%s", BackupDirectory, TmpFileName);
 		ExpandPath(TmpBackupName, NewName, MAXPATH);
     } else
         snprintf(NewName, MAXPATH, "%s~", FileName);
