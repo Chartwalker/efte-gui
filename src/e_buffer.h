@@ -106,7 +106,11 @@ public:
         Row = aRow;
         Col = aCol;
     }
-    ~EPoint() {}
+    ~EPoint(){}
+
+    EPoint(const EPoint& src);
+    EPoint& operator=( const EPoint&);
+
 };
 
 typedef struct _UndoStack {
@@ -124,10 +128,15 @@ typedef struct _RoutineList {
     int *Lines;
 } RoutineList;
 
-typedef struct _EBookmark {
+class EBookmark
+{
+public:
     char *Name;
     EPoint BM;
-} EBookmark;
+
+    EBookmark(const EBookmark& src);
+    EBookmark& operator=( const EBookmark& );
+};
 
 typedef struct {
     int line;

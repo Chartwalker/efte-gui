@@ -127,9 +127,9 @@ static int ConInitColors() {
 
 int ConInit(int /*XSize */ , int /*YSize */) {
     int ch;
-    const char *s;
+    const char *s; 
 
-    ESCDELAY = escDelay;
+    set_escdelay(escDelay); 
     initscr();
     ConInitColors();
     mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, NULL);

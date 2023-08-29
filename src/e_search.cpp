@@ -1092,6 +1092,8 @@ int EBuffer::ShowPosition() {
 int EBuffer::PlaceBookmark(const char *Name, EPoint P) {
     int i;
     EBookmark *p;
+    /* because realloc on structs isn't safe*/
+    EBookmark *BMarks_old_p;
 
     assert(P.Row >= 0 && P.Row < RCount && P.Col >= 0);
 
@@ -1101,7 +1103,10 @@ int EBuffer::PlaceBookmark(const char *Name, EPoint P) {
             return 1;
         }
     }
-    p = (EBookmark *) realloc(BMarks, sizeof(EBookmark) * (1 + BMCount));
+
+    BMarks_old_p = BMarks;
+    p= new EBookmark[BMCount +1];
+    delete[] (EBookmark *) BMarks_old_p;
     if (p == 0) return 0;
     BMarks = p;
     BMarks[BMCount].Name = strdup(Name);
@@ -1112,14 +1117,23 @@ int EBuffer::PlaceBookmark(const char *Name, EPoint P) {
 
 int EBuffer::RemoveBookmark(const char *Name) {
     int i;
+    /* because realloc on structs isn't safe*/
+    EBookmark *BMarks_old_p;
+    EBookmark *BMarks_mv_p;
 
     for (i = 0; i < BMCount; i++) {
         if (strcmp(Name, BMarks[i].Name) == 0) {
-            free(BMarks[i].Name);
-            memmove(BMarks + i, BMarks + i + 1, sizeof(EBookmark) * (BMCount - i - 1));
-            BMCount--;
-            BMarks = (EBookmark *) realloc(BMarks, sizeof(EBookmark) * BMCount);
-            return 1;
+	    free(BMarks[i].Name);
+	    BMarks_mv_p = BMarks;
+	    new EBookmark[BMCount - i - 1];
+	    memcpy(BMarks + i,BMarks + i + 1,sizeof(EBookmark) * (BMCount - i - 1));
+            delete[] (EBookmark *) BMarks_mv_p;
+//            memmove(BMarks + i, BMarks + i + 1, sizeof(EBookmark) * (BMCount - i - 1));
+	    BMCount--;
+	    BMarks_old_p = BMarks;
+	    BMarks = new EBookmark[BMCount];
+	    delete[] (EBookmark *) BMarks_old_p;
+	    return 1;
         }
     }
     View->MView->Win->Choice(GPC_ERROR, "RemoveBookmark", 1, "O&K", "Bookmark %s not found.", Name);

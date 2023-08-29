@@ -1808,17 +1808,17 @@ static int LoadFile(const char *WhereName, const char *CfgName, int Level, int o
 
 #if PATHTYPE == PT_UNIXISH
 #       define SEARCH_PATH_LEN 6
-        char dirs[SEARCH_PATH_LEN][MAXPATH];
+        char dirs[SEARCH_PATH_LEN][MAXPATH+50];
 
         snprintf(dirs[0], MAXPATH, "%s/%s", ConfigDir, CfgName);
-        snprintf(dirs[1],  MAXPATH, "~/.efte/%s", CfgName);
-        snprintf(dirs[2],  MAXPATH, "%s/share/efte/local/%s", EFTE_INSTALL_DIR, CfgName);
-        snprintf(dirs[3],  MAXPATH, "/etc/efte/local/%s", CfgName);
-        snprintf(dirs[4],  MAXPATH, "%s/share/efte/config/%s", EFTE_INSTALL_DIR, CfgName);
-        snprintf(dirs[5],  MAXPATH, "/etc/efte/config/%s", CfgName);
+        snprintf(dirs[1], MAXPATH, "~/.efte/%s", CfgName);
+        snprintf(dirs[2], MAXPATH, "%s/share/efte/local/%s", EFTE_INSTALL_DIR, CfgName);
+        snprintf(dirs[3], MAXPATH, "/etc/efte/local/%s", CfgName);
+        snprintf(dirs[4], MAXPATH, "%s/share/efte/config/%s", EFTE_INSTALL_DIR, CfgName);
+        snprintf(dirs[5], MAXPATH, "/etc/efte/config/%s", CfgName);
 #else // if PT_UNIXISH
 #       define SEARCH_PATH_LEN 11
-        char dirs[SEARCH_PATH_LEN][MAXPATH];
+        char dirs[SEARCH_PATH_LEN][MAXPATH+50];
         snprintf(dirs[0], MAXPATH, "%s/%s", ConfigDir, CfgName);
         snprintf(dirs[1], MAXPATH, "~/.efte/%s", CfgName);
         snprintf(dirs[2], MAXPATH, "~/efte/%s", CfgName);
@@ -1829,7 +1829,7 @@ static int LoadFile(const char *WhereName, const char *CfgName, int Level, int o
         snprintf(dirs[7], MAXPATH, "/Program Files (x86)/efte/local/%s", CfgName);
         snprintf(dirs[8], MAXPATH, "/Program Files (x86)/efte/config/%s", CfgName);
         const char *pf = getenv("ProgramFiles");
-        snprintf(dirs[9], MAXPATH, "%s/eFTE/local/%s", pf ? pf : "C:", CfgName);
+        snprintf(dirs[9],  MAXPATH, "%s/eFTE/local/%s", pf ? pf : "C:", CfgName);
         snprintf(dirs[10], MAXPATH, "%s/eFTE/config/%s", pf ? pf : "C:", CfgName);
 #endif // if PT_UNIXISH
 

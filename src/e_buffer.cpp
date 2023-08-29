@@ -14,6 +14,36 @@
 EBuffer *SSBuffer = 0; // scrap buffer (clipboard)
 
 ///////////////////////////////////////////////////////////////////////////////
+class EBookmark;
+
+EBookmark::EBookmark
+{
+    Name = new char;
+    BM = new EPoint;
+}
+
+EPoint& EPoint::operator=( const EPoint& src)
+{
+    if( this !=&src )
+    {
+        Row = src.Row;
+        Col = src.Col;
+    }
+    return *this;
+}
+
+EBookmark& EBookmark::operator=( const EBookmark& src)
+{
+
+    if( this !=&src )
+    {
+        Name = src.Name;
+        BM = src.BM;
+    }
+    return *this;
+}
+
+
 
 EBuffer::EBuffer(int createFlags, EModel **ARoot, const char * /*AName*/)
         : EModel(createFlags, ARoot), TP(0, 0), CP(0, 0), BB(-1, -1), BE(-1, -1),

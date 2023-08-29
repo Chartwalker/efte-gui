@@ -153,6 +153,7 @@ setup: basesetup $(TARGETS:=-setup)
 
 clean:
 	rm -f *.o .depend.mak
+	rm -f *.exe
 
 cleanall:
 	rm -f efte nefte vefte bin2c defcfg.h config.h .depend.mak
@@ -240,3 +241,4 @@ vefte: config.h defcfg.h $(OBJS) $(VOBJS)
 .depend.mak: Makefile
 	which g++ 2>/dev/null >/dev/null && for f in $(addsuffix .cpp,$(basename $(OBJS) $(XOBJS) $(NOBJS) $(VOBJS) )) ; do \
 		g++ $(CXXFLAGS) -MM "$$f" >> "$@" 2>/dev/null ; done || touch "$@"
+

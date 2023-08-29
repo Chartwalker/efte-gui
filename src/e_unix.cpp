@@ -21,7 +21,7 @@
 
 int EView::SysShowHelp(ExState &State, const char *word) {
     char options[128] = "";
-    char command[1024];
+    char command[1024+MAXPATH+400]; /* place for command + path + options */
     char file[MAXPATH];
 
     if (State.GetStrParam(this, options, sizeof(options) - 1) == 0)
@@ -36,8 +36,8 @@ int EView::SysShowHelp(ExState &State, const char *word) {
         word = wordAsk;
     }
 
-    snprintf(file, sizeof(file) - 1, "/tmp/efte%d-man-%s", getpid(), word);
-    snprintf(command, sizeof(command) - 1, "%s %s %s >'%s' 2>&1", HelpCommand, options, word, file);
+    snprintf(file, (sizeof(file) - 1), "/tmp/efte%d-man-%s", getpid(), word);
+    snprintf(command, (sizeof(command) -1), "%s %s %s >'%s' 2>&1", HelpCommand, options, word, file);
 
     /// !!! why is this needed ???
 #define SYSCALL(call) while(((call) == -1) && (errno == EINTR))
